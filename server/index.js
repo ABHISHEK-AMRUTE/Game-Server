@@ -8,7 +8,7 @@ const app = express()
 const server = http.createServer(app)
 
 const io = socketio(server)
-
+const PORT = process.env.PORT || 3000
 app.use(express.json())
 const pathdirectories = path.join(__dirname , "../public")
 app.use(express.static(pathdirectories))
@@ -31,6 +31,6 @@ io.on('connection',(socket)=>{
 })
 
 
-server.listen(3000,()=>{
+server.listen(PORT,()=>{
     console.log("listning on 3000")
 })
