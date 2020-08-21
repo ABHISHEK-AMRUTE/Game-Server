@@ -1,0 +1,16 @@
+{
+  "name": "game_app",
+  "version": "1.0.0",
+  "description": "Set of Real time Two player games",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./server/index.js"
+  },
+  "author": "Abhishek Amrute",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "hbs": "^4.1.1",
+    "socket.io": "^2.3.0"
+  }
+}
