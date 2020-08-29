@@ -3,12 +3,15 @@ const path  =require('path')
 const hbs = require('hbs')
 const http = require('http')
 const socketio = require('socket.io')
+const firebase = require('firebase')
+require('firebase/database')
 
 const app = express()
 const server = http.createServer(app)
 
+
 const io = socketio(server)
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5000
 app.use(express.json())
 const pathdirectories = path.join(__dirname , "../public")
 app.use(express.static(pathdirectories))
@@ -22,15 +25,73 @@ app.get('',(req,res)=>
     res.render('index')
 })
 
+//////firebase connections
+
+
+
+
+
+  var firebaseConfig = {
+    apiKey: "AIzaSyA51MSix_gS5QDQhu5Ht1yvrTf_w5AI41k",
+    authDomain: "game-server-38c4e.firebaseapp.com",
+    databaseURL: "https://game-server-38c4e.firebaseio.com",
+    projectId: "game-server-38c4e",
+    storageBucket: "game-server-38c4e.appspot.com",
+    messagingSenderId: "901179508980",
+    appId: "1:901179508980:web:1abe0174cefaed4d3f76a1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.firestore();
+
+////////
+
 
 
 ////socket part
 
 io.on('connection',(socket)=>{
     console.log('New Connection')
+
+    socket.on('joinroom',(roomname,name,is_created)=>{
+        console.log("room "+roomname+" joined")
+        socket.join(roomname);
+        
+
+        if(is_created == 1)
+        {
+          // database.collection('real-time-info').doc('online-rooms').set({
+          //   [roomname] :{ members : [name] , admin : name}
+          // })
+           const array = [name]
+           io.in(roomname).emit('newbie',array);
+        }
+        else{
+          // database.collection('real-time-info').doc('online-rooms/'+roomname+"/members").get().then((doc)=>{
+          //   if(doc){
+          //     console.log(doc)
+          //   }
+          //   else console.log("not found")
+
+          // })
+
+          
+          // database.collection('real-time-info').doc('online-rooms').update({
+          //   roomname :{ members : [name] , admin : name}
+          // })
+          io.in(roomname).emit('admin_here_me',name);
+        }
+        
+    })
+    
+    socket.on('new_mem_from_admin',(roomname,array)=>{
+          
+      socket.to(roomname).emit('newbie',array);
+    })
+    
 })
 
 
 server.listen(PORT,()=>{
-    console.log("listning on 3000")
+    console.log("listning on "+PORT)
 })
