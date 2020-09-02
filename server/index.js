@@ -63,8 +63,8 @@ io.on('connection',(socket)=>{
           // database.collection('real-time-info').doc('online-rooms').set({
           //   [roomname] :{ members : [name] , admin : name}
           // })
-           const array = [name]
-           io.in(roomname).emit('newbie',array);
+          
+           io.in(roomname).emit('newbie',name);
         }
         else{
           // database.collection('real-time-info').doc('online-rooms/'+roomname+"/members").get().then((doc)=>{
@@ -85,10 +85,26 @@ io.on('connection',(socket)=>{
     })
     
     socket.on('new_mem_from_admin',(roomname,array)=>{
-          
+      
+      console.log("sample array  :::=> "+array)
+      
       socket.to(roomname).emit('newbie',array);
     })
     
+
+
+    socket.on('tic-tac-toe-listen-to-move',(pos,value,chance,room)=>{
+       io.in(room).emit('tic-tac-toe-move',pos,value,chance)
+    })
+
+    socket.on('distribute-quiz-question',(res,room)=>{
+      console.log(res)
+      io.in(room).emit('take-quiz-question',res)
+    })
+
+    socket.on('here-quiz-answer',(roomname,name,score)=>{
+      io.in(roomname).emit('listen-answer',name,score);
+    })
 })
 
 
