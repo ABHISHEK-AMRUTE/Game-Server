@@ -105,6 +105,10 @@ io.on('connection',(socket)=>{
     socket.on('here-quiz-answer',(roomname,name,score)=>{
       io.in(roomname).emit('listen-answer',name,score);
     })
+
+    socket.on('quiz-event',(roomname,caseCode)=>{
+      io.in(roomname).emit('quiz-event-callback',caseCode);
+    })
 })
 
 
