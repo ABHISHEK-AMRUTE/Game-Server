@@ -31,18 +31,12 @@ app.get('',(req,res)=>
 
 
 
-  var firebaseConfig = {
-    apiKey: "AIzaSyA51MSix_gS5QDQhu5Ht1yvrTf_w5AI41k",
-    authDomain: "game-server-38c4e.firebaseapp.com",
-    databaseURL: "https://game-server-38c4e.firebaseio.com",
-    projectId: "game-server-38c4e",
-    storageBucket: "game-server-38c4e.appspot.com",
-    messagingSenderId: "901179508980",
-    appId: "1:901179508980:web:1abe0174cefaed4d3f76a1"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.firestore();
+  // var firebaseConfig = {
+
+  // };
+  // // Initialize Firebase
+  // firebase.initializeApp(firebaseConfig);
+  // const database = firebase.firestore();
 
 ////////
 
